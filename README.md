@@ -2,7 +2,7 @@
 
 **🌐 آدرس وب‌سایت ما: [langaming.top](http://langaming.top)**
 
-=
+
 
 ---
 
