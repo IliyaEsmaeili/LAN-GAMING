@@ -2,8 +2,7 @@
 
 **🌐 آدرس وب‌سایت ما: [langaming.top](http://langaming.top)**
 
-![تصویر صفحه اصلی سایت](https://via.placeholder.com/800x400?text=Your+Website+Screenshot+Here)  
-
+=
 
 ---
 
