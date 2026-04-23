@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CSV Sheet Panel</title>
+
+<style>
+  :root {
+    --bg-color: #0f172a;
+    --cyan: #00f0ff;
+    --purple: #b026ff;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --transition: all 0.3s ease;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --expired: #ff4d4d;
+  }
+
+  body {
+    margin: 0;
+    direction: ltr;
+    background: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    padding: 25px;
+  }
+
+  .panel {
+    max-width: 1500px;
+    margin: auto;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  /* ?????? ???????? ???? */
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    background: linear-gradient(to right, var(--cyan), var(--purple));
+    color: #000;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: var(--font-family);
+    transition: opacity 0.3s, transform 0.1s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+  }
+  .btn-outline:hover {
+    background: rgba(0, 240, 255, 0.1);
+  }
+
+  .btn-success {
+    background: #10b981;
+    color: white;
+  }
+  .btn-success:hover {
+    background: #059669;
+  }
+
+  /* ?????? ??? */
+  .scroll-top {
+    overflow-x: auto;
+    height: 25px;
+    margin-bottom: 10px;
+  }
+  .scroll-sync {
+    width: max-content;
+    height: 5px;
+  }
+
+  .scroll-bottom {
+    overflow: auto;
+    max-height: 70vh;
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 900px;
+  }
+
+  th, td {
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+
+  thead tr.header-row th {
+    background: rgba(15,23,42,0.97);
+    color: var(--cyan);
+    position: sticky;
+    top: 0;
+    cursor: pointer;
+  }
+
+  /* ????? */
+  thead tr.filter-row th {
+    position: sticky;
+    top: 32px;
+    background: rgba(15,23,42,0.95);
+    padding: 4px;
+  }
+
+  .filter-input {
+    width: 100%;
+    padding: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(148,163,184,0.4);
+    border-radius: 6px;
+    color: var(--text-main);
+  }
+
+  /* Total footer */
+  tfoot tr.total-row td {
+    background: rgba(15,23,42,1);
+    position: sticky;
+    bottom: 0;
+    font-weight: bold;
+    color: var(--cyan);
+  }
+  tfoot tr.total-row td:first-child {
+    color: var(--text-main);
+  }
+
+  /* EXPIRED row */
+  tr.expired-row td {
+    background: rgba(255,0,0,0.25) !important;
+    color: var(--expired) !important;
+    font-weight: bold;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="panel">
+
+  <div class="header">
+    <h2>ADMIN CSV Sheet</h2>
+    <div class="header-actions">
+      <a href="/admin.html" class="btn btn-outline">Back to Admin Panel</a>
+      <button id="addRowBtn" class="btn btn-success">+ Add Row</button>
+      <button id="downloadBtn" class="btn">Download CSV</button>
+    </div>
+  </div>
+
+  <div class="scroll-top" id="scrollTop">
+    <div id="scrollSyncTop" class="scroll-sync"></div>
+  </div>
+
+  <div class="scroll-bottom" id="scrollBottom">
+    <div id="tableContainer"></div>
+  </div>
+
+</div>
+
+<script>
+let originalData = [];
+let filteredData = [];
+let headers = [];
+let sortState = {}; 
+
+
+const noSumColumns = ["Bale ID", "Chat ID", "chat id", "UID", "HUB NAME", "Plan", "Activation Date", "Expiration Date", "Notes"];
+
+const maxColumns = ["Duration (Days)", "Days Remaining"];
+
+
+function parseCSVLine(line) {
+  const result = [];
+  let cur = "";
+  let q = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i], n = line[i+1];
+    if (c === '"' && q && n === '"') { cur += '"'; i++; }
+    else if (c === '"') q = !q;
+    else if (c === ',' && !q) { result.push(cur); cur = ""; }
+    else cur += c;
+  }
+  result.push(cur);
+  return result;
+}
+
+function parseCSV(csv) {
+  const rows = csv.trim().split(/\r?\n/).map(parseCSVLine);
+  headers = rows[0];
+  originalData = rows.slice(1);
+  filteredData = [...originalData];
+}
+
+function buildTable(rows) {
+  let html = "<table><thead>";
+
+
+  html += '<tr class="header-row">';
+  headers.forEach((h, idx) => {
+    html += `<th data-col="${idx}">${h} ??</th>`;
+  });
+  html += "</tr>";
+
+
+  html += '<tr class="filter-row">';
+  headers.forEach((_, i) => {
+    html += `<th><input class="filter-input" data-col="${i}" placeholder="Filter..."></th>`;
+  });
+  html += "</tr>";
+
+  html += "</thead><tbody>";
+
+  rows.forEach(r => {
+
+    const daysRemainingIdx = headers.indexOf("Days Remaining");
+    const isExpired = daysRemainingIdx !== -1 && (r[daysRemainingIdx] || "").trim().toLowerCase() === "expired";
+    
+    html += `<tr class="${isExpired ? 'expired-row' : ''}">`;
+
+    headers.forEach((_, i) => {
+      html += `<td contenteditable="true" data-col="${i}">${escapeHTML(formatNumberIfNeeded(r[i] || "", headers[i]))}</td>`;
+    });
+
+    html += "</tr>";
+  });
+
+  html += "</tbody><tfoot>";
+
+  
+  html += "<tr class='total-row'>";
+  html += "<td>Total</td>";
+  headers.slice(1).forEach((h,i)=> {
+    html += `<td data-total-col="${i+1}"></td>`;
+  });
+
+  html += "</tr></tfoot></table>";
+
+  document.getElementById("tableContainer").innerHTML = html;
+
+  syncScrollWidth();
+  attachFilterEvents();
+  attachEditEvents();
+  attachSortEvents();
+  updateTotals();
+}
+
+
+function numFormat(x) {
+  return x.toLocaleString("en-US");
+}
+
+/* Totals */
+function updateTotals() {
+  const totals = {};
+  const tbodyRows = [...document.querySelectorAll("tbody tr")];
+
+  headers.forEach((h, col) => {
+    if (noSumColumns.includes(h)) {
+      totals[col] = "";
+      return;
+    }
+
+    if (maxColumns.includes(h)) {
+      let maxVal = null;
+      tbodyRows.forEach(tr => {
+        const v = tr.querySelector(`td[data-col="${col}"]`).textContent.trim().replace(/,/g,"");
+        const n = Number(v);
+        if (!isNaN(n) && v !== "") {
+          if (maxVal === null || n > maxVal) maxVal = n;
+        }
+      });
+      totals[col] = maxVal !== null ? numFormat(maxVal) : "";
+      return;
+    }
+
+    let sum = 0;
+    let hasNumber = false;
+    tbodyRows.forEach(tr => {
+      const v = tr.querySelector(`td[data-col="${col}"]`).textContent.trim();
+      const n = Number(v.replace(/,/g,"")); // ??? ???? ???? ???
+      if (!isNaN(n) && v !== "") { sum += n; hasNumber = true; }
+    });
+
+    totals[col] = hasNumber ? numFormat(sum) : "";
+  });
+
+  headers.forEach((h, col) => {
+    const td = document.querySelector(`td[data-total-col="${col}"]`);
+    if (td) td.textContent = totals[col] || "";
+  });
+}
+
+function applyFilters() {
+  const filters = [...document.querySelectorAll(".filter-input")].map(i => i.value.trim().toLowerCase());
+
+  filteredData = originalData.filter(r => {
+    return filters.every((f, col) => {
+      if (!f) return true;
+      return (r[col] || "").toLowerCase().includes(f);
+    });
+  });
+
+  buildTable(filteredData);
+}
+
+function attachFilterEvents() {
+  document.querySelectorAll(".filter-input").forEach(inp => {
+    inp.addEventListener("input", applyFilters);
+  });
+}
+
+
+function attachSortEvents() {
+  document.querySelectorAll("thead tr.header-row th").forEach(th => {
+    th.addEventListener("click", () => {
+      const col = parseInt(th.dataset.col);
+
+      if (!sortState[col] || sortState[col] === "none") {
+        sortState[col] = "asc";
+      } else if (sortState[col] === "asc") {
+        sortState[col] = "desc";
+      } else {
+        sortState[col] = "none";
+      }
+
+      if (sortState[col] === "none") {
+        applyFilters(); 
+        return;
+      } else {
+        filteredData.sort((a,b)=> {
+          const valA = a[col] || "";
+          const valB = b[col] || "";
+          
+          const cleanX = String(valA).replace(/,/g,"");
+          const cleanY = String(valB).replace(/,/g,"");
+          
+          const isNumX = !isNaN(cleanX) && cleanX.trim() !== "";
+          const isNumY = !isNaN(cleanY) && cleanY.trim() !== "";
+
+          if (isNumX && isNumY) {
+            const numX = Number(cleanX);
+            const numY = Number(cleanY);
+            return sortState[col] === "asc" ? (numX - numY) : (numY - numX);
+          }
+          return sortState[col] === "asc" ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
+        });
+      }
+
+      buildTable(filteredData);
+    });
+  });
+}
+
+
+function attachEditEvents() {
+  document.querySelectorAll("tbody td[contenteditable='true']").forEach(td=>{
+    td.addEventListener("input", updateTotals);
+  });
+}
+
+function syncScrollWidth() {
+  const table = document.querySelector("table");
+  const w = table.offsetWidth;
+  document.getElementById("scrollSyncTop").style.width = w + "px";
+
+  const top = document.getElementById("scrollTop");
+  const bot = document.getElementById("scrollBottom");
+
+  top.onscroll = ()=> bot.scrollLeft = top.scrollLeft;
+  bot.onscroll = ()=> top.scrollLeft = bot.scrollLeft;
+}
+
+function escapeHTML(s) {
+  return String(s)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+}
+
+
+// ???? ?????? ???
+document.getElementById("addRowBtn").onclick = () => {
+  const emptyRow = new Array(headers.length).fill("");
+  originalData.push(emptyRow);
+  applyFilters(); // ???? ???? ????
+  
+  // ?????? ?? ?????
+  setTimeout(() => {
+    const scrollBottom = document.getElementById("scrollBottom");
+    scrollBottom.scrollTop = scrollBottom.scrollHeight;
+  }, 100);
+};
+
+
+document.getElementById("downloadBtn").onclick = () => {
+  // ???? ??????? ????? ???? ???? ?????? ???? ???? ?? ?????????
+  const rows = [...document.querySelectorAll("table tbody tr")];
+  
+  // ????? ???? ??? ?? ???? ???????
+  const headerCSV = headers.map(h => `"${h.replace(/"/g,'""')}"`).join(",");
+
+  const csvRows = rows.map(r=>{
+    return [...r.children].map(c=>{
+      let t = c.textContent.replace(/"/g,'""');
+      if (t.includes(',')) {
+         t = t.replace(/,/g, '');
+      }
+      return `"${t}"`;
+    }).join(",");
+  });
+  
+  const finalCSV = [headerCSV, ...csvRows].join("\n");
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([finalCSV]));
+  a.download = "output.csv";
+  a.click();
+};
+
+
+function formatNumberIfNeeded(value, header) {
+  if (header === "Amount Paid") {
+    const n = Number(value.replace(/,/g,""));
+    if (!isNaN(n) && value.trim() !== "") {
+      return n.toLocaleString("en-US");
+    }
+  }
+  return value;
+}
+
+/* F E T C H */
+fetch("/api/Products/DownloadCsv")
+  .then(r=>r.text())
+  .then(csv=>{
+    parseCSV(csv);
+    buildTable(filteredData);
+  })
+  .catch(err => {
+    console.error("Error fetching CSV:", err);
+    // ????? ??? ??? ???? ?? ????? ????
+    if(headers.length === 0) {
+      const fallbackCsv = "Name,Days Remaining,Amount Paid\nTest User,30,5000\nExpired User,Expired,10000";
+      parseCSV(fallbackCsv);
+      buildTable(filteredData);
+    }
+  });
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,682 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN GAMING | نهایت تجربه گیمینگ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#home" class="logo">LAN<span>GAMING</span></a>
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html#games">بازی‌ها</a></li>
+                    <li><a href="index.html#pricing">تعرفه‌ها</a></li>
+                    <li><a href="index.html#public-hubs">هاب‌های عمومی</a></li>
+                    <li><a href="index.html#faq">سوالات متداول</a></li>
+                    <li><button class="lang-switch" onclick="toggleLanguage()">FA / EN</button></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="btn primary-btn" id="nav-login-btn">ورود / ثبت‌نام</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <header id="home" class="hero-section">
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+        <div class="hero-content">
+            <h1>تجربه واقعی <span class="text-gradient">LAN Gaming</span></h1>
+            <p> با اینترنت ملی، بدون لگ! با شبکه اختصاصی ما، بازی‌های مورد علاقه خود را با پایین‌ترین پینگ ممکن و بالاترین امنیت تجربه کنید.</p>
+            <a href="#pricing" class="btn primary-btn btn-large">مشاهده تعرفه‌ها</a>
+        </div>
+    </header>
+
+    <!-- 2. Games Section -->
+    <section id="games" class="section container">
+        <h2 class="section-title">بازی‌های <span>پشتیبانی شده</span></h2>
+        <div class="grid game-grid">
+            <div class="glass-card game-card" style="background-image: linear-gradient(to top, rgba(15,23,42,0.9), transparent), url('https://s8.uupload.ir/files/906e23ee-32b3-4e81-8d7b-9294e5f91808_5uw5.png');">
+                <h3>Rainbow Six Siege</h3>
+            </div>
+            <div class="glass-card game-card" style="background-image: linear-gradient(to top, rgba(15,23,42,0.9), transparent), url('https://s8.uupload.ir/files/minecraft_hiiv.png');">
+                <h3>Minecraft</h3>
+            </div>
+            <div class="glass-card game-card" style="background-image: linear-gradient(to top, rgba(15,23,42,0.9), transparent), url('https://s8.uupload.ir/files/cs_psh.png');">
+                <h3>Counter-Strike 1.6</h3>
+            </div>
+            <div class="glass-card game-card more-games" onclick="window.location.href='games.html'">
+                <h3>+ مشاهده سایر بازی‌ها</h3>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- 3. Pricing Plans -->
+    <section id="pricing" class="section container">
+        <h2 class="section-title">تعرفه‌های <span>اشتراک</span></h2>
+        <div class="grid pricing-grid">
+            <!-- Standard Plan -->
+            <div class="glass-card pricing-card">
+                <h3>اشتراک استاندارد (پایه) 💳</h3>
+                <div class="pricing-tier"><span>۱ هفته‌ای</span> <strong>۵۹,۰۰۰ تومان</strong></div>
+                <div class="pricing-tier"><span>۲ هفته‌ای <span class="gift" style="color:#ffb703; font-size:0.8rem;">🎁 +۱ روز رایگان</span></span> <strong>۹۹,۰۰۰ تومان</strong></div>
+                <div class="pricing-tier"><span>۱ ماهه <span class="gift" style="color:#ffb703; font-size:0.8rem;">🎁 +۴ روز رایگان</span></span> <strong>۱۷۰,۰۰۰ تومان</strong></div>
+                
+                <div class="pricing-features">
+                    <p>💥 <strong>مزیت ویژه (۳+۱):</strong> نیاز به تهیه اکانت جداگانه برای دوستانتان نیست! اکانت خود را با ۳ نفر دیگر شریک شوید.</p>
+                    <p style="margin-top: 15px;">👥 <strong>اسکواد بزرگتری دارید؟ (هر کاربر اضافه):</strong></p>
+                    <ul>
+                        <li>۱ هفته‌ای: ۵ هزار تومان</li>
+                        <li>۲ هفته‌ای: ۱۰ هزار تومان</li>
+                        <li>۱ ماهه: ۲۰ هزار تومان</li>
+                    </ul>
+                </div>
+                <button class="btn secondary-btn w-100" onclick="openPlanModal('standard')">انتخاب و خرید استاندارد</button>
+            </div>
+
+            <!-- VIP Plan -->
+            <div class="glass-card pricing-card popular">
+                <div class="popular-badge">پرطرفدار</div>
+                <h3 style="color: var(--purple);">اشتراک ویژه (VIP) 💎</h3>
+                <div class="pricing-tier"><span>۱ هفته‌ای</span> <strong>۷۹,۰۰۰ تومان</strong></div>
+                <div class="pricing-tier"><span>۲ هفته‌ای <span class="gift" style="color:#ffb703; font-size:0.8rem;">🎁 +۲ روز رایگان</span></span> <strong>۱۳۴,۰۰۰ تومان</strong></div>
+                <div class="pricing-tier"><span>۱ ماهه <span class="gift" style="color:#ffb703; font-size:0.8rem;">🎁 +۵ روز رایگان</span></span> <strong>۲۱۴,۰۰۰ تومان</strong></div>
+                
+                <div class="pricing-features">
+                    <p>💥 <strong>مزیت ویژه (۴+۱):</strong> ۴ اکانت دیگر برای همین هاب به شما داده می‌شود.</p>
+                    <p style="margin-top: 15px;">👥 <strong>کاربر اضافه به همراه اکانت اختصاصی:</strong></p>
+                    <ul>
+                        <li>۱ هفته‌ای: ۱۰ هزار تومان</li>
+                        <li>۲ هفته‌ای: ۱۵ هزار تومان</li>
+                        <li>۱ ماهه: ۲۵ هزار تومان</li>
+                    </ul>
+                </div>
+                <button class="btn primary-btn w-100" onclick="openPlanModal('vip')">انتخاب و خرید VIP</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Public Hubs Section (Replaced Donate) -->
+    <section id="public-hubs" class="section container">
+        <div class="glass-card" style="text-align: center; border-color: var(--cyan);">
+            <h2 class="section-title" style="margin-bottom: 20px;">هاب‌های <span>عمومی</span></h2>
+            <p style="margin-bottom: 30px; font-size: 1.1rem; color: var(--text-muted); line-height: 1.8;">
+                اسکواد ندارید یا به دنبال رقابت با پلیرهای جدید هستید؟ <br>
+                وارد هاب‌های عمومی و رایگان ما شوید، به سرورهای گیمینگ متصل شوید و از پینگ پایین لذت ببرید!
+            </p>
+            <a href="public-hubs.html" class="btn primary-btn btn-large" style="padding: 15px 40px; font-size: 1.1rem;">
+                ورود به دنیای هاب‌های عمومی 🌍
+            </a>
+        </div>
+    </section>
+
+    <!-- 5. FAQ Section -->
+    <section id="faq" class="section container faq-container">
+        <h2 class="section-title">سوالات <span>متداول</span></h2>
+        <details>
+            <summary>اصلاً شبکه LAN یعنی چی و بازی LAN چطور کار می‌کنه؟</summary>
+            <p>کلمه LAN مخفف Local Area Network یا «شبکه محلی» است. بازی LAN یعنی چند نفر داخل یک شبکه مشترک و از طریق کابل یا وای‌فای به هم وصل بشن و بازی کنن؛ دقیقاً مثل وقت‌هایی که با دوستاتون توی گیم‌نت دور هم جمع می‌شید و سیستم‌ها به هم متصل هستن.</p>
+        </details>
+        <details>
+            <summary>سرویس شما دقیقاً چی‌کار می‌کنه؟</summary>
+            <p>ما با استفاده از سرورهای قدرتمندمون، یک شبکه LAN مجازی می‌سازیم. یعنی سیستمِ شما و دوستاتون رو از طریق اینترنت به هم وصل می‌کنیم. با این کار، حتی اگه شما و دوستاتون توی شهرها یا خونه‌های مختلفی باشید، سیستم‌هاتون فکر می‌کنن همگی توی یک اتاق و به یک مودم وصل هستید! (درست مثل یک گیم‌نت آنلاین و اختصاصی).</p>
+        </details>
+         <details>
+            <summary>چه بازی‌هایی رو می‌تونیم با این سرویس بازی کنیم؟</summary>
+            <p>هر بازی که قابلیت شبکه شدن محلی رو داشته باشه! کافیه وارد منوی بازی مورد نظرتون بشید و بررسی کنید که آیا یکی از گزینه‌های زیر رو داره یا نه:<br>
+ LAN  |  Local Network  |  LAN Party  |  System Line  |  Offline Multiplayer<br>
+سرویس ما فقط و فقط بازی‌هایی را به هم متصل می‌کند که دارای این قابلیت در منوی خود باشند.</p>
+        </details>
+        <details>
+            <summary> استفاده از این سرویس چه مزیتی داره؟ چرا آنلاینِ معمولی بازی نکنیم؟</summary>
+            <p>وقتی شما از سرویس LAN مجازی ما استفاده می‌کنید، نیازی نیست به سرورهای خارجی و دور وصل بشید. نتیجه‌ی این کار فوق‌العاده‌:<br>
+🌐  *بدون نیاز به اینترنت بین الملل: در اینترنت ملی به راحتی با دوستانتون بازی کنید.<br>
+ 🚀 *پینگ بسیار پایین: چون سرورها داخلی هستن، پینگ شما به حداقل می‌رسه.<br>
+ 🛸 *بازی روان‌تر: تاخیر (Delay) در بازی حس نمی‌شه.<br>
+ 🌏 *بدون نیاز به سرور خارجی: تحریم‌های بازی‌ها روی کار شما تاثیری نداره.<br>
+        </details>
+        <details>
+            <summary> آیا راه‌اندازی و وصل شدن به این سرویس سخته؟</summary>
+            <p>اصلاً! خیلی آسونه!<br>
+ آموزش‌های تصویری و متنی کامل هم توی سایت براتون قرار دادیم.</p>
+        </details>
+    </section>
+
+    <!-- User Dashboard (Hidden by default) -->
+    <section id="user-dashboard" class="section container hidden">
+        <h2 class="section-title">ناحیه <span>کاربری</span> شما</h2>
+        <div class="glass-card">
+            <div class="dash-stats">
+                <div class="stat-box"><h4>نام هاب شما</h4><span id="ui-hub-name">در حال بررسی...</span></div>
+                <div class="stat-box"><h4>نوع اشتراک</h4><span id="ui-sub-type" style="color: var(--purple);">در حال بررسی...</span></div>
+                <div class="stat-box"><h4>ظرفیت اکانت</h4><span id="ui-user-limit">در حال بررسی...</span></div>
+                <div class="stat-box"><h4>زمان باقی‌مانده</h4><span id="ui-time-left">در حال بررسی...</span></div>
+            </div>
+
+
+            <div class="dashboard-actions">
+                <button class="btn primary-btn" onclick="openHubModal()">اتصال به هاب</button>
+
+
+                <button class="btn secondary-btn" onclick="openUsersModal('vip')">مدیریت کاربران</button>
+
+                <button class="btn secondary-btn" onclick="openProfileEdit()">تنظیمات حساب ⚙️</button>
+                <button class="btn danger-btn" onclick="logoutAccount()">خروج 🚪</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Profile Modal -->
+    <div id="profile-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeProfileEdit()">X</button>
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--cyan);">تنظیمات حساب کاربری</h2>
+            <form id="profile-form">
+                <!-- به این دو اینپوت id اضافه شد و value پیش فرض حذف شد -->
+                <div class="input-group"><label>نام</label><input type="text" id="fullname-input" disabled></div>
+                <div class="input-group"><label>نام کاربری</label><input type="text" id="username-input" disabled style="opacity: 0.6;"></div>
+
+                <!-- <div class="input-group">
+                    <label>شماره موبایل</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="tel" placeholder="09xxxxxxxxx" id="mobile-input">
+                        <button type="button" class="btn secondary-btn" onclick="sendOtp()" id="otp-btn">تایید</button>
+                    </div>
+                </div>
+
+                <div class="input-group hidden" id="otp-section">
+                    <label>کد تایید پیامک شده</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" placeholder="کد ۵ رقمی">
+                        <button type="button" class="btn primary-btn" onclick="verifyOtp()">ثبت کد</button>
+                    </div>
+                </div> -->
+                <div class="input-group">
+                    <label>شماره موبایل</label>
+                    <div style="display: none; gap: 10px;">
+                        <input type="tel" placeholder="09xxxxxxxxx" id="mobile-input">
+                        <button type="button" class="btn secondary-btn" onclick="sendOtp()" id="otp-btn">تایید</button>
+                    </div>
+                </div>
+
+                <div class="input-group hidden" id="otp-section">
+                    <label>کد تایید پیامک شده</label>
+                    <div style="display: none; gap: 10px;">
+                        <input type="text" placeholder="کد ۵ رقمی">
+                        <button type="button" class="btn primary-btn" onclick="verifyOtp()">ثبت کد</button>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0; border-top: 1px dashed var(--glass-border); padding-top: 20px;">
+                    <h4 style="color: var(--text-muted); margin-bottom: 15px;">تغییر رمز عبور</h4>
+                    <div class="input-group"><label>رمز عبور جدید</label><input type="password" id="new-pwd"></div>
+                    <div class="input-group"><label>تکرار رمز عبور جدید</label><input type="password" id="confirm-pwd"></div>
+                </div>
+
+                <button type="submit" class="btn primary-btn w-100">ذخیره تغییرات</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal">X</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">ورود</button>
+                <button class="auth-tab" id="tab-register">ثبت‌نام</button>
+            </div>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label>نام کاربری</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="input-group">
+                    <label>رمز عبور</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn primary-btn w-100">ورود به پنل</button>
+            </form>
+
+
+            <form id="register-form" class="hidden">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>نام</label>
+                        <input type="text" id="reg-firstName" required>
+                    </div>
+                    <div class="input-group">
+                        <label>نام خانوادگی</label>
+                        <input type="text" id="reg-lastName" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>نام کاربری</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                <div class="input-group">
+                    <label>رمز عبور</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <div class="input-group">
+                    <label>تکرار رمز عبور</label>
+                    <input type="password" id="reg-confirmPassword" required>
+                </div>
+                <button type="submit" class="btn primary-btn w-100">تکمیل ثبت‌نام</button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Gaming Plan Modal (Popup) -->
+    <div id="plan-modal" class="modal-overlay hidden">
+        <div class="modal-content plan-modal-content">
+            <button class="close-btn" id="close-plan-modal">X</button>
+            <h2 style="text-align: center; margin-bottom: 20px;">انتخاب <span class="text-gradient">مدت زمان</span></h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;" id="plan-modal-desc">مدت زمان اشتراک خود را انتخاب کنید</p>
+
+            <div class="plan-options" id="duration-options">
+                <div class="plan-option" onclick="selectDuration('1week', this)">
+                    <h4>۱ هفته‌ای</h4>
+                    <span id="price-1w" class="price"></span>
+                </div>
+                
+                <div class="plan-option" onclick="selectDuration('2weeks', this)">
+                    <h4>۲ هفته‌ای</h4>
+                    <span id="price-2w" class="price"></span>
+                    <span class="gift-tag">بونوس رایگان!</span>
+                </div>
+
+                <div class="plan-option best-value" onclick="selectDuration('1month', this)">
+                    <div class="best-value-badge">⚡ بهترین انتخاب ⚡</div>
+                    <h4>۱ ماهه (پیشنهاد گیمرها)</h4>
+                    <span id="price-1m" class="price" style="font-size: 1.4rem; color: #fff;"></span>
+                    <span class="gift-tag" style="background: var(--purple);">بیشترین روز رایگان!</span>
+                </div>
+            </div>
+
+            <!-- بخش تنظیمات اضافه (با انیمیشن باز می‌شود) -->
+            <div id="extra-settings" class="extra-settings-container">
+                <div style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed var(--glass-border);">
+                    <div class="input-row">
+                        <!-- انتخاب پلتفرم -->
+                        <div class="input-group">
+                            <label>پلتفرم بازی شما</label>
+                            <select id="platform-select" class="filter-select w-100">
+                                <option value="PC (کامپیوتر)">PC (کامپیوتر)</option>
+                                <option value="گوشی موبایل">گوشی موبایل</option>
+                            </select>
+                            <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 5px; display: block;">
+                                (PS, Xbox, Nintendo به زودی...)
+                            </small>
+                        </div>
+                        
+                        <!-- کاربران اضافه -->
+                        <div class="input-group">
+                            <label>ظرفیت کاربر اضافه</label>
+                            <div class="qty-selector">
+                                <button type="button" class="qty-btn" onclick="updateExtraUsers(-1)">-</button>
+                                <input type="number" id="extra-users" value="0" readonly>
+                                <button type="button" class="qty-btn" onclick="updateExtraUsers(1)">+</button>
+                            </div>
+                            <small style="color: var(--cyan); font-size: 0.75rem; margin-top: 5px; display: block;">
+                                هزینه‌ها در فاکتور محاسبه می‌شود.
+                            </small>
+                        </div>
+                    </div>
+                    <button class="btn primary-btn w-100" style="margin-top: 15px;" onclick="goToCheckout()">تایید و صدور فاکتور</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Support Chat -->
+    <div id="support-widget">
+        <button class="support-fab" onclick="toggleSupportChat()">
+            💬
+        </button>
+        <div class="support-chat-window hidden" id="support-chat-window">
+            <div class="chat-header">
+                پشتیبانی آنلاین (هوش مصنوعی / اپراتور)
+                <span onclick="toggleSupportChat()" style="cursor: pointer;">✖</span>
+            </div>
+            <div class="chat-body" id="support-chat-body">
+                <div class="msg support-msg">سلام! چطور می‌تونم کمکتون کنم؟ 🎮</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" placeholder="پیام خود را بنویسید..." id="support-input">
+                <button onclick="sendSupportMsg()">ارسال</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cool Footer -->
+    <footer id="footer" class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="#home" class="logo">LAN<span>GAMING</span></a>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.9rem;">تجربه پینگ پایین و کیفیت بدون مرز برای گیمرهای ایرانی.</p>
+<a href="https://ble.ir/langaming" target="_blank" class="bale-item">
+        <img src="https://s8.uupload.ir/files/logo-bale-app-download-png-vector-toranjlogo_(1)_gfid.png" alt="Bale Channel">
+        <span>کانال ما</span>
+    </a>
+
+    <a href="https://ble.ir/lan_gaming" target="_blank" class="bale-item">
+        <img src="https://s8.uupload.ir/files/logo-bale-app-download-png-vector-toranjlogo_(1)_gfid.png" alt="Bale Support">
+        <span>پشتیبانی</span>
+    </a>
+
+    <a href="https://ble.ir/lan_gaming_gap" target="_blank" class="bale-item">
+        <img src="https://s8.uupload.ir/files/logo-bale-app-download-png-vector-toranjlogo_(1)_gfid.png" alt="Bale Support">
+        <span>گپ</span>
+    </a>
+            </div>
+            
+            <div class="footer-donate">
+                <h4 style="color: #fff; margin-bottom: 10px;">حمایت از ما 💜</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
+                    اگر از کیفیت سرورها و پینگ ما راضی هستید، با دونیت کردن از طریق ریمیت به ما در ارائه خدمات بهتر کمک کنید!
+                </p>
+                <a href="https://reymit.ir/langaming" target="_blank" class="btn reymit-btn">حمایت مالی از طریق ریمیت</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy;   ساخته شده با 💜 توسط لن گیمینگ</p>
+        </div>
+    </footer>
+
+
+     <!-- User Management Modal -->
+    <div id="users-modal" class="modal-overlay hidden">
+        <div class="modal-content users-modal-content" id="users-modal-box">
+            <button class="close-btn" onclick="closeUsersModal()">X</button>
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--cyan);">مدیریت <span>کاربران هاب</span></h2>
+            
+            <div class="users-header-info">
+                <div class="capacity-info">
+                    ظرفیت: <span id="current-users-count" style="display: none;"></span>  <span id="max-users-count" style="color: var(--purple); font-weight: bold;">۵</span>
+                    <button class="btn-sm secondary-btn" style="margin-right: 15px; padding: 6px 12px; font-size: 0.85rem;" onclick="toggleCapacityBuy()">+ افزایش ظرفیت</button>
+                </div>
+                <div id="plan-type-badge" class="plan-badge vip">اشتراک VIP</div>
+            </div>
+
+            <!-- بخش کشویی خرید ظرفیت -->
+            <div id="buy-capacity-box" class="extra-capacity-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div class="input-group" style="margin: 0;">
+                        <label style="color: var(--cyan);">تعداد کاربر اضافه جدید</label>
+                        <div class="qty-selector">
+                            <button type="button" class="qty-btn" onclick="updateCapacityQty(-1)">-</button>
+                            <input type="number" id="capacity-extra-qty" value="1" readonly style="width: 50px;">
+                            <button type="button" class="qty-btn" onclick="updateCapacityQty(1)">+</button>
+                        </div>
+                    </div>
+                    <button class="btn primary-btn btn-sm" onclick="goToCapacityCheckout()">صدور فاکتور افزایش ظرفیت</button>
+                </div>
+            </div>
+
+            <div class="users-list-container">
+                <!-- Owner User (Main Account) - بزرگتر و ثابت -->
+                <div class="user-item owner-item">
+                    <div class="user-item-header" style="border-bottom: none; margin-bottom: 0;">
+                        <span class="user-role">👑 سازنده هاب (شما)</span>
+                    </div>
+                    <div class="user-credentials" style="margin-top: 15px;">
+                        <div class="cred-group">
+                            <label>نام کاربری:</label>
+                            <input type="text" value="omega_gamer" readonly>
+                        </div>
+                        <div class="cred-group">
+                            <label>رمز عبور:</label>
+                            <div class="pwd-input-wrapper">
+                                <input type="text" value="omega_gamer" id="owner-pwd" readonly>
+                                <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('owner-pwd', this)" style="display: none;">👁️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub Users List - کامپکت و بازشو -->
+                <!-- Sub Users List - ظرف خالی که جاوا اسکریپت پرش میکنه -->
+                <div id="sub-users-list"></div>
+
+                <!-- قالب (Template) برای کاربران فرعی که در ظاهر دیده نمی‌شود -->
+                <template id="sub-user-template">
+                    <div class="user-item sub-user compact"  style="display: none;">
+                        <div class="user-item-header" onclick="toggleUserExpand(this)">
+                            <span class="user-number">کاربر X</span>
+                            <div style="display: none; gap: 15px; align-items: center;">
+                                <button class="remove-user-btn danger-text" onclick="event.stopPropagation(); removeUser(this)">حذف ✖</button>
+                                <span class="expand-arrow">▼</span>
+                            </div>
+                        </div>
+                        <div class="user-credentials-body">
+                            <div class="user-credentials">
+                                <div class="cred-group">
+                                    <label>نام کاربری:</label>
+                                    <input type="text" class="tpl-username" readonly>
+                                </div>
+                                <div class="cred-group">
+                                    <label>رمز عبور:</label>
+                                    <div class="pwd-input-wrapper">
+                                        <input type="password" class="tpl-password" readonly>
+                                        <button type="button" class="toggle-pwd-btn tpl-toggle-btn">👁️</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+
+            <!-- Add New User Section -->
+            <div id="add-user-section" class="add-user-box" style="display: none;">
+                <h4 style="margin-bottom: 10px; font-size: 0.95rem;">+ افزودن مشخصات کاربر جدید در فضای خالی</h4>
+                <div class="input-row">
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <input type="text" id="new-sub-username" placeholder="نام کاربری دلخواه">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <input type="password" id="new-sub-password" placeholder="رمز عبور">
+                    </div>
+                </div>
+                <button class="btn primary-btn w-100" style="margin-top: 10px;" onclick="addNewUser()">ثبت کاربر در هاب</button>
+            </div>
+            
+            <div id="add-user-section" class="add-user-box" style="text-align: center; color: var(--text-muted); margin-top: 20px; font-size: 0.9rem; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+               با پشتیبانی در تماس باشید.
+            </div>
+            
+            <div id="standard-plan-msg" class="hidden" style="text-align: center; color: var(--text-muted); margin-top: 20px; font-size: 0.9rem; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; display: none;">
+                شما دارای اشتراک استاندارد هستید. در این اشتراک مدیریت کاربران امکان‌پذیر نیست. برای امکان تغییر کاربران، اشتراک خود را به VIP ارتقا دهید.
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- مودال هاب یافت نشد -->
+    <div id="no-hub-modal" class="modal-overlay hidden">
+        <div class="modal-content users-modal-content" style="max-width: 400px; text-align: center;">
+            <button class="close-btn" onclick="document.getElementById('no-hub-modal').classList.add('hidden')">X</button>
+            <div style="font-size: 3rem; margin-bottom: 15px;">⚠️</div>
+            <h3 style="color: var(--cyan); margin-bottom: 15px;">هابی یافت نشد!</h3>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">شما در حال حاضر هیچ هاب فعالی ندارید یا زمان اشتراک شما به پایان رسیده است.</p>
+            <button class="btn primary-btn w-100" onclick="document.getElementById('no-hub-modal').classList.add('hidden')">متوجه شدم</button>
+        </div>
+    </div>
+
+
+
+    </div>
+    </div>
+<!-- Hub Connection Modal -->
+<div id="hub-modal" class="hub-overlay hidden">
+    <div class="glass-card hub-modal-content">
+        <button class="close-modal" onclick="closeHubModal()">✖</button>
+        
+        <h3 class="section-title" style="font-size: 1.8rem; margin-bottom: 20px;">آموزش اتصال به <span>هاب</span></h3>
+
+        <!-- Hub Info Box -->
+        <!-- بخش اطلاعات هاب -->
+        <div id="hub-info-container" class="hub-info-box">
+            <div class="info-item">
+                <span class="info-label">اسم هاب:</span>
+                <span id="hub-name-display" class="info-value text-gradient">در حال بررسی...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">آی‌پی اتصال:</span>
+                <span class="info-value" style="direction: ltr;">langaming.top</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">پورت اتصال:</span>
+                <span class="info-value" style="direction: ltr;">5555</span>
+            </div>
+        </div>
+
+        <!-- اسکریپت اختصاصی برای همین بخش -->
+        <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+                try {
+                    // درخواست به API با استفاده از تابع کمکی که از قبل دارید
+                    const response = await apiCall('/Products/GetProductsInfoByCurrentUser', 'GET');
+
+                    const container = document.getElementById('hub-info-container');
+                    const nameDisplay = document.getElementById('hub-name-display');
+
+                    // اگر هابی پیدا نشد (ارور 404)
+                    if (response.status === 404) {
+                        container.innerHTML = `
+                    <div style="text-align: center; padding: 15px; color: var(--text-muted);">
+                        <span style="font-size: 1.5rem; display: block; margin-bottom: 5px;">⚠️</span>
+                        شما در حال حاضر هاب فعالی ندارید.
+                    </div>`;
+                        return;
+                    }
+
+                    // اگر درخواست موفق بود، اسم هاب رو تغییر بده
+                    if (response.ok && response.data) {
+                        nameDisplay.innerText = response.data.hubName || 'نامشخص';
+                    } else {
+                        nameDisplay.innerText = 'خطا در دریافت';
+                    }
+                } catch (error) {
+                    console.error('Error fetching quick hub info:', error);
+                    document.getElementById('hub-name-display').innerText = 'خطا';
+                }
+            });
+        </script>
+
+
+        <!-- Level 1 Tabs -->
+        <div class="hub-tabs">
+            <button class="btn secondary-btn w-100 tab-btn active" id="tab-pc" onclick="selectHubPlatform('pc')">💻 ویندوز</button>
+            <button class="btn secondary-btn w-100 tab-btn" id="tab-mobile" onclick="selectHubPlatform('mobile')">📱 موبایل</button>
+        </div>
+
+        <!-- Level 2 Tabs (Mobile OS) -->
+        <div id="mobile-sub-tabs" class="hub-sub-tabs closed">
+            <button class="btn secondary-btn w-100 sub-tab-btn" id="tab-android" onclick="selectHubOS('android')">🤖 اندروید</button>
+            <button class="btn secondary-btn w-100 sub-tab-btn" id="tab-iphone" onclick="selectHubOS('iphone')">🍎 آیفون (iOS)</button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="hub-content-area">
+            
+            <!-- PC Content (Windows) -->
+            <div id="content-pc" class="tutorial-content">
+                <h4 style="color: var(--cyan); margin-bottom: 10px;">آموزش اتصال در ویندوز (SoftEther)</h4>
+                <ol class="tut-steps">
+                    <li>برنامه LanGaming رو دانلود و اکسترکت کنید (رمز فایل: LanGaming).</li>
+                    <li> <a href="https://uploadkon.ir/uploads/7db816_26LanGaming.rar" target="_blank" style="color:var(--cyan); text-decoration:underline;">لینک اصلی</a>    |    <a href="https://uploadkon.ir/uploads/1d6516_26LanGaming.zip" target="_blank" style="color:var(--cyan); text-decoration:underline;">لینک پشتیبان ۱</a></li>
+                    <li> <a href="https://my.files.ir/drive/s/LVuekTijIwyRMUqZ3jT7NXHs3Haex1" target="_blank" style="color:var(--cyan); text-decoration:underline;">لینک پشتیبان ۲ - پارت۱</a>    |    <a href="https://my.files.ir/drive/s/hHx48Kzg0nfy1zsx2OKGgkykMpbXUm" target="_blank" style="color:var(--cyan); text-decoration:underline;">لینک پشتیبان ۲ - پارت۲ </a>    |    <a href="https://my.files.ir/drive/s/8txEZDpMKEqgfbg3b75w2LwMNYwFIu" target="_blank" style="color:var(--cyan); text-decoration:underline;">لینک پشتیبان ۲ - پارت۳</a></li>
+                    <li>طبق ویدیو پیش برید. نام هاب را دستی وارد نکنید و از لیست انتخاب کنید.</li>
+                    <li>یوزرنیم و پسورد را کپی نکنید، حتماً کامل تایپ کنید.</li>
+                    <li>اگر با پورت ۵۵۵۵ ارور دریافت کردید، پورت ۴۴۳ را تست کنید.</li>
+                    <li>اگر اتصال ناموفق بود آیپی ۱۸۵.۲۲۶.۱۱۸.۱۹۷ رو نیز امتحان کنید.</li>
+                    <li>در صورت عدم اتصال، در CMD دستور <code style="background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;">ping 185.226.118.197</code> را تایپ کرده و نتیجه را به پشتیبانی [@lan_gaming] ارسال کنید.</li>
+                </ol>
+                <div class="video-container" style="margin-bottom: 15px;">
+                    <style>.h_iframe-aparat_embed_frame{position:relative;}.h_iframe-aparat_embed_frame .ratio{display:block;width:100%;height:auto;}.h_iframe-aparat_embed_frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;}</style>
+                    <div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 57%"></span><iframe src="https://www.aparat.com/video/video/embed/videohash/dlx8dka/vt/frame" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div>
+                </div>
+            </div>
+
+            <!-- Android Content -->
+            <div id="content-android" class="tutorial-content hidden" >
+                <h4 style="color: var(--cyan); margin-bottom: 10px;">آموزش اتصال در اندروید (OpenVPN)</h4>
+                <ol class="tut-steps">
+                    <li>اپلیکیشن <strong>OpenVPN Connect</strong> را از گوگل پلی دانلود و نصب کنید.</li>
+                    <li>فایل پروفایل اتصال (.ovpn) که پشتیبانی برای شما ارسال کرده را دانلود کنید.</li>
+                    <li>وارد برنامه شده، تب <strong>File</strong> را انتخاب کرده و فایل دانلود شده را Import کنید.</li>
+                    <li>تیک Save Password را بزنید و نام کاربری و رمز عبور خود را وارد کنید.</li>
+                    <li>روی دکمه Connect در بالا سمت راست ضربه بزنید تا متصل شوید.</li>
+                </ol>
+            </div>
+
+            <!-- iPhone Content -->
+            <div id="content-iphone" class="tutorial-content hidden">
+                <h4 style="color: var(--cyan); margin-bottom: 10px;">روش اول: اتصال با OpenVPN (پیشنهادی ⭐️)</h4>
+                <ol class="tut-steps">
+                    <li>فایل پروفایل پیوست شده را در آیفون دانلود کنید.</li>
+                    <li><a href="https://my.files.ir/drive/s/MduqRuyYteYQ0iU7US5M8aK4dFFhpa" target="_blank" style="color:var(--cyan); text-decoration:underline;">لینک اصلی</a></li>
+                    <li>با کلیک روی آن، برنامه OpenVPN باز می‌شود. روی دکمه <strong>ADD</strong> کلیک کنید.</li>
+                    <li>نام کاربری را وارد کرده و تیک <strong>Save Password</strong> را بزنید تا کادر رمز عبور ظاهر شود.</li>
+                    <li>نکته : نام کاربری شما در گوشی به صورت username@Hub name است.</li>
+                    <li>پس از وارد کردن رمز، روی کانکت بزنید. در دفعات بعدی فقط نیاز به روشن کردن دکمه اتصال است.</li>
+                </ol>
+
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
+
+                <h4 style="color: var(--purple); margin-bottom: 10px;">روش دوم: اتصال با تنظیمات خود آیفون (L2TP)</h4>
+                <ol class="tut-steps">
+                    <li>به مسیر <code style="direction:ltr; display:inline-block;">Settings > General > VPN > Add VPN</code> بروید.</li>
+                    <li>گزینه Type را روی <strong>L2TP</strong> قرار دهید.</li>
+                    <li>بخش Description: یک نام دلخواه. Server: <code>185.226.118.197</code></li>
+                    <li>بخش Account: نام کاربری شما (مثلا ali@HubName). Secret را <code>langaming</code> وارد کنید.</li>
+                    <li>نکته : نام کاربری شما در گوشی به صورت username@Hub name است.</li>
+                    <li>گزینه RSA SecurlID خاموش، Send All Traffic روشن و Proxy روی off باشد. Done را بزنید و متصل شوید.</li>
+                </ol>
+            </div>
+            
+            <!-- نکات اتصال مشترک -->
+            <button class="btn w-100" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); color: #fff; margin-top: 15px;" onclick="toggleTips()">
+                💡 نکات مهم و مشترک اتصال (کلیک کنید)
+            </button>
+            <div id="common-tips" class="hidden" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-top: 10px; font-size: 0.9rem; line-height: 1.8; border: 1px solid rgba(0, 240, 255, 0.2);">
+                <ul style="list-style-type: disc; padding-right: 20px;">
+                    <li>نام کاربری شما(در تلفن همراه) به صورت <code style="direction:ltr; display:inline-block;">username@HUB_NAME</code> است و همراه رمز، فقط در هاب خودتان کار می‌کند.</li>
+                    <li>هرگونه DNS، فیلترشکن و برنامه‌ای که آی‌پی شما را تغییر می‌دهد را حتماً <strong>غیرفعال کنید</strong>.</li>
+                    <li>این سرویس صرفاً یک گیم‌نت مجازی (LAN) برای شبکه کردن سیستم‌ها جهت بازی است و پینگ شما را برای بازی‌های داخلی کاهش می‌دهد.</li>
+                    <li>توجه: این اکانت فیلترشکن نیست، آی‌پی اینترنت شما را تغییر نمی‌دهد و قابلیت دور زدن فیلترینگ را ندارد.</li>
+                
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <script src="script.js?v=2.3"></script>
+</body>
+</html>

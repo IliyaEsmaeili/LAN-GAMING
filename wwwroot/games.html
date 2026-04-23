@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی‌های پشتیبانی شده | LAN GAMING</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="scrolled">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html">صفحه اصلی</a></li>
+                    <li><a href="index.html#pricing">تعرفه‌ها</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="index.html" class="btn secondary-btn">بازگشت</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="section container" style="margin-top: 80px; text-align: center;">
+        <h1 class="section-title" style="margin-bottom: 10px;">لیست کامل <span class="text-gradient">بازی‌ها</span></h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">لیست بزودی کامل میشود. برای دریافت لیست بازی ها به پشتیبانی پیام دهید.</p>
+    </header>
+
+    <!-- Main Games (3 Featured) -->
+    <section class="section container" style="padding-top: 20px;">
+        <h2 style="margin-bottom: 30px; border-right: 4px solid var(--cyan); padding-right: 15px;">بازی‌های اصلی و پرطرفدار</h2>
+        <div class="grid featured-games-grid">
+            
+            <!-- Game 1 -->
+            <div class="glass-card full-game-card">
+                <div class="game-banner" style="background-image: url('https://s8.uupload.ir/files/906e23ee-32b3-4e81-8d7b-9294e5f91808_5uw5.png');"></div>
+                <div class="game-info">
+                    <h3>Rainbow Six Siege</h3>
+                    <p>تجربه تاکتیکال شوتر با پینگ زیر ۴۰ میلی‌ثانیه در سرورهای اختصاصی.</p>
+                    <div class="game-actions">
+    <button class="btn primary-btn w-100" onclick="downloadGame('Rainbow Six Siege')">دانلود بازی</button>
+    <div style="display: flex; gap:10px;">
+        <button class="btn secondary-btn w-100" style="border-color: var(--purple);" onclick="openTutorial('Rainbow Six Siege')">آموزش</button>
+        <button class="btn secondary-btn w-100" onclick="openForumChat('Rainbow Six Siege')">چت کاربران 💬</button>
+    </div>
+</div>
+                </div>
+            </div>
+
+            <!-- Game 2 -->
+            <div class="glass-card full-game-card">
+                <div class="game-banner" style="background-image: url('https://s8.uupload.ir/files/minecraft_hiiv.png');"></div>
+                <div class="game-info">
+                    <h3>Minecraft</h3>
+                    <p>ساخت و ساز با دوستان در سرورهای بدون لگ و پایدار ما.</p>
+                    <div class="game-actions">
+    <button class="btn primary-btn w-100" onclick="downloadGame('Minecraft')">دانلود بازی</button>
+    <div style="display: flex; gap:10px;">
+        <button class="btn secondary-btn w-100" style="border-color: var(--purple);" onclick="openTutorial('Minecraft')">آموزش</button>
+        <button class="btn secondary-btn w-100" onclick="openForumChat('Minecraft')">چت کاربران 💬</button>
+    </div>
+</div>
+                </div>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="glass-card full-game-card">
+                <div class="game-banner" style="background-image: url('https://s8.uupload.ir/files/cs_psh.png');"></div>
+                <div class="game-info">
+                    <h3>Counter-Strike 1.6</h3>
+                    <p>رقابت حرفه‌ای بدون قطعی با سرورهای قدرتمند ایران.</p>
+                    <div class="game-actions">
+    <button class="btn primary-btn w-100" onclick="downloadGame('Counter-Strike 1.6')">دانلود بازی</button>
+    <div style="display: flex; gap:10px;">
+        <button class="btn secondary-btn w-100" style="border-color: var(--purple);" onclick="openTutorial('Counter-Strike 1.6')">آموزش</button>
+        <button class="btn secondary-btn w-100" onclick="openForumChat('Counter-Strike 1.6')">چت کاربران 💬</button>
+    </div>
+</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Other Games (Compact List View) -->
+    <section class="section container" style="padding-top: 0;">
+        <h2 style="margin-bottom: 20px; border-right: 4px solid var(--purple); padding-right: 15px;">سایر بازی‌ها</h2>
+        
+        <!-- Search and Filter -->
+        <div class="filter-container">
+            <input type="text" id="searchInput" class="filter-input" placeholder="جستجوی نام بازی...">
+            <select id="genreFilter" class="filter-select">
+                <option value="all">همه سبک‌ها</option>
+                <option value="fps">شوتر (FPS)</option>
+                <option value="survival">بقا (Survival)</option>
+                <option value="strategy">استراتژی (Strategy)</option>
+                <option value="rpg">نقش‌آفرینی (RPG)</option>
+                <option value="moba">موبا (MOBA)</option>
+                <option value="sim">شبیه‌ساز (Simulation)</option>
+                <option value="other">سایر (Other)</option>
+            </select>
+        </div>
+
+        <!-- Games List Container -->
+        <div class="compact-games-list" id="gamesList">
+            <!-- لیست بازی‌ها توسط جاوااسکریپت در اینجا تولید می‌شود -->
+        </div>
+    </section>
+
+    <!-- Game Forum Chat Modal -->
+    <div id="forum-modal" class="modal-overlay hidden">
+        <div class="modal-content" style="padding: 20px; display: flex; flex-direction: column; height: 60vh; max-width: 500px;">
+            <button class="close-btn" onclick="closeForumChat()">X</button>
+            <h3 style="text-align: center; margin-bottom: 15px; color: var(--cyan); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;" id="forum-game-title">چت کاربران</h3>
+            
+            <div class="forum-chat-body" id="forum-chat-body">
+                <div class="msg other-msg">اینجا میتونم با بقیه پلیر ها چت کنم و اگه مشکلی راجب بازی ای داشتم و یا حتی هم تیمی میخواستم با بقیه در ارتیاط باشم؟</div>
+                <div class="msg user-msg">آره چرا که نه! این بخش به زودی اضافه میشه.</div>
+            </div>
+            
+            <div class="forum-chat-footer">
+                <input type="text" placeholder="پیام خود را بنویسید..." id="forum-input">
+                <button class="btn primary-btn" onclick="sendForumMsg()">ارسال</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="modal-overlay hidden">
+        <div class="modal-content tutorial-modal-content">
+            <button class="close-btn" id="close-tutorial-modal">X</button>
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--cyan);" id="tut-game-name">آموزش اتصال</h2>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-text-tut">آموزش متنی</button>
+                <button class="auth-tab" id="tab-video-tut">آموزش ویدیویی</button>
+            </div>
+
+            <div id="text-tutorial" class="tutorial-body">
+                <ol style="padding-right: 20px; line-height: 2; color: var(--text-muted);">
+                    <li>ابتدا نرم‌افزار سافت اتر را از پنل کاربری دانلود و نصب کنید.</li>
+                    <li>با نام کاربری و رمز عبور خود وارد شوید.</li>
+                    <li>بازی <strong id="tut-game-text-name"></strong> بازی را اجرا کنید.</li>
+                    <li>بازی را اجرا کرده و از طریق بخش LAN یا Local Network وارد سرور شوید.</li>
+                </ol>
+            </div>
+
+                        <div id="video-tutorial" class="tutorial-body hidden">
+                <div class="aparat-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; border: 1px solid var(--glass-border);">
+                    <!-- فرمت صحیح امبد ویدیو آپارات -->
+                    <iframe id="aparat-iframe" src="https://www.aparat.com/video/video/embed/videohash/dlx8dka/vt/frame" allowFullScreen="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: #ffb703;">⚠️ در صورت عدم نمایش ویدیو، لطفاً VPN خود را خاموش کنید.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Floating Support Chat -->
+    <div id="support-widget">
+        <button class="support-fab" onclick="toggleSupportChat()">💬</button>
+        <div class="support-chat-window hidden" id="support-chat-window">
+            <div class="chat-header">
+                پشتیبانی آنلاین (هوش مصنوعی / اپراتور)
+                <span onclick="toggleSupportChat()" style="cursor: pointer;">✖</span>
+            </div>
+            <div class="chat-body" id="support-chat-body">
+                <div class="msg support-msg">سلام! چطور می‌تونم کمکتون کنم؟ 🎮</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" placeholder="پیام خود را بنویسید..." id="support-input">
+                <button onclick="sendSupportMsg()">ارسال</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

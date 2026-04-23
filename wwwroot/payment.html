@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تایید پرداخت | LAN GAMING</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* استایل‌های اختصاصی صفحه پرداخت */
+        .payment-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 20px 60px; }
+        .payment-card { 
+            max-width: 650px; 
+            width: 100%; 
+            border-color: var(--purple); 
+            box-shadow: 0 0 40px rgba(176, 38, 255, 0.15); 
+        }
+        
+        /* باکس نمایش مبلغ */
+        .amount-display {
+            text-align: center;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px dashed var(--cyan);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 35px; /* افزایش فاصله با متن بالایی */
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+        }
+        .amount-display span {
+            color: var(--cyan);
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-right: 10px;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        /* طراحی کارت بانکی */
+        .credit-card-box {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(176, 38, 255, 0.15));
+            border: 1px solid rgba(176, 38, 255, 0.4);
+            border-radius: 16px;
+            padding: 25px 30px;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .credit-card-box::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: rotate(45deg); pointer-events: none;
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; color: var(--text-muted); font-size: 0.9rem; }
+        .bank-logo { color: #fff; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .bank-logo span { color: #ff3366; font-size: 1.2rem; }
+        
+        .card-number-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 10px; border: 1px solid var(--glass-border); gap: 10px; }
+        
+        /* اصلاح سایز و جلوگیری از رفتن به خط بعد */
+        .card-number { 
+            font-size: 1.35rem; 
+            letter-spacing: 2px; 
+            font-family: monospace; 
+            color: #fff; 
+            direction: ltr; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+            white-space: nowrap; /* جلوگیری قطعی از شکستن متن */
+        }
+        
+        .btn-copy { background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan); padding: 6px 15px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; font-weight: bold; white-space: nowrap; }
+        .btn-copy:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; }
+        .card-owner-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
+        .card-owner-name { font-size: 1.2rem; color: var(--text-main); font-weight: bold; }
+
+        /* فرم اطلاعات پرداخت */
+        .payment-form { display: flex; flex-direction: column; gap: 20px; }
+        .input-group label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; }
+        .filter-input { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.4); color: #fff; outline: none; transition: border-color 0.3s; }
+        .filter-input:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+        textarea.filter-input { resize: vertical; min-height: 80px; font-family: inherit; }
+        
+        /* آپلود فایل سفارشی */
+        .file-upload-wrapper { display: flex; align-items: center; gap: 15px; }
+        .file-upload-wrapper input[type="file"] { display: none; }
+        .btn-upload { background: rgba(176, 38, 255, 0.1); border: 1px dashed var(--purple); color: #fff; padding: 12px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .btn-upload:hover { background: rgba(176, 38, 255, 0.2); border-style: solid; box-shadow: 0 0 15px rgba(176, 38, 255, 0.3); }
+        .file-name-display { color: var(--text-muted); font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
+        
+        .helper-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; display: block; }
+        .helper-text span { color: var(--cyan); font-weight: bold; }
+
+        /* استایل ارور فرم */
+        .form-error-msg {
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid #9000ff;
+            color: #33d3ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            /* در حالت عادی مخفی است */
+            animation: shake 0.4s ease-in-out;
+        }
+        
+
+        /* پیام موفقیت */
+        .success-overlay { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; animation: fadeIn 0.5s ease; }
+        .success-icon { font-size: 4rem; color: #00ff88; margin-bottom: 20px; text-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
+        .success-overlay h3 { color: #fff; font-size: 1.5rem; margin-bottom: 10px; }
+        .success-overlay p { color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        /* اصلاح ریسپانسیو */
+               /* اصلاح ریسپانسیو */
+        @media (max-width: 600px) {
+            .payment-card {
+                padding: 15px; /* کاهش پدینگ کلی کارت در موبایل */
+            }
+            .credit-card-box {
+                padding: 20px 15px; /* کاهش پدینگ داخلی کارت بانکی برای باز شدن فضا */
+            }
+            .card-number-row { 
+                flex-direction: column; 
+                gap: 12px; 
+                text-align: center; 
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .card-number { 
+                font-size: 1.1rem; /* کوچکتر کردن فونت */
+                letter-spacing: 1px; /* کاهش فاصله بین اعداد */
+                width: 100%;
+            }
+            .btn-copy { width: 100%; }
+            .file-upload-wrapper { flex-direction: column; align-items: flex-start; }
+            .btn-upload { width: 100%; text-align: center; }
+            .file-name-display { max-width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+    <nav id="navbar" class="scrolled">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+            </div>
+            <div class="nav-actions">
+                <a href="invoice.html" class="btn secondary-btn" onclick="history.back(); return false;">بازگشت به فاکتور</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="payment-wrapper">
+        <div class="glass-card payment-card" id="main-payment-box">
+            <div class="invoice-header" style="border-bottom: none; padding-bottom: 0;">
+                <h2 class="text-gradient">تایید و ثبت پرداخت</h2>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 1.05rem;">لطفاً مبلغ را به کارت زیر واریز کرده و اطلاعات را ثبت کنید</p>
+            </div>
+
+            <!-- نمایش مبلغ -->
+            <div class="amount-display">
+                مبلغ قابل پرداخت: <span id="payment-amount">0 تومان</span>
+            </div>
+
+            <!-- کارت بانکی شیک -->
+            <div class="credit-card-box">
+                <div class="card-header">
+                    <div class="bank-logo"><span>●</span> بلو بانک</div>
+                    <div>کارت بانکی LAN GAMING</div>
+                </div>
+                
+                <div class="card-number-row">
+                    <div class="card-number" id="card-number-text">6219 8619 8345 7028</div>
+                    <button class="btn-copy" onclick="copyCardNumber()" id="copy-btn">کپی شماره کارت</button>
+                </div>
+
+                <div class="card-footer">
+                    <div>
+                        <div class="card-owner-label">صاحب حساب</div>
+                        <div class="card-owner-name">حسین قاسمی</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- فرم دریافت اطلاعات -->
+            <form id="payment-form" class="payment-form" onsubmit="submitPayment(event)">
+                
+                <!-- ارور فرم -->
+                <div id="form-error" class="form-error-msg">
+                    لطفاً حداقل یکی از موارد (شماره پیگیری، فیش یا توضیحات) را وارد کنید!
+                </div>
+
+                <div class="input-group">
+                    <label>شماره پیگیری / شماره ارجاع</label>
+                    <input type="text" id="tracking-input" class="filter-input w-100" placeholder="مثال: 1452369874">
+                </div>
+
+                <div class="input-group">
+                    <label>آپلود فیش واریزی</label>
+                    <div class="file-upload-wrapper">
+                        <label for="receipt-upload" class="btn-upload">انتخاب تصویر فیش 📁</label>
+                        <input type="file" id="receipt-upload" accept="image/*" onchange="updateFileName(this)">
+                        <span class="file-name-display" id="file-name">فایلی انتخاب نشده</span>
+                    </div>
+                    <small class="helper-text">اگر نمیتونی عکس آپلود کنی، <span>متنی بفرستش</span> (شماره پیگیری و فیش به صورت توضیح)</small>
+                </div>
+
+                <div class="input-group">
+                    <label>توضیحات</label>
+                    <textarea id="desc-input" class="filter-input w-100" placeholder="اگر توضیح خاصی درباره اکانت، پرداخت یا فیش دارید اینجا بنویسید..."></textarea>
+                </div>
+
+                <button type="submit" class="btn primary-btn w-100" style="font-size: 1.1rem; padding: 15px; margin-top: 10px;">ثبت اطلاعات پرداخت</button>
+            </form>
+        </div>
+
+        <!-- پیام موفقیت -->
+        <div class="glass-card payment-card success-overlay" id="success-box">
+            <div class="success-icon">✓</div>
+            <h3 class="text-gradient">فیش با موفقیت ارسال شد!</h3>
+            <p>اطلاعات پرداخت شما دریافت شد.<br>بزودی بعد از تایید، اکانتتون فعال میشه و از طریق ایمیل/پیامک به شما اطلاع میدیم.</p>
+            <a href="index.html" class="btn secondary-btn w-100">بازگشت به صفحه اصلی</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer" class="main-footer" style="margin-top: 0;">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.9rem;">تجربه پینگ پایین و کیفیت بدون مرز برای گیمرهای ایرانی.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LAN GAMING. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+
+    <script> // خواندن مبلغ از حافظه مرورگر
+    document.addEventListener('DOMContentLoaded', () => {
+        let finalAmount = localStorage.getItem('invoiceTotalAmount') || '0 تومان';
+        document.getElementById('payment-amount').textContent = finalAmount;
+    });
+
+    // کپی شماره کارت
+    function copyCardNumber() {
+        const cardNumber = "6219861983457028";
+        navigator.clipboard.writeText(cardNumber).then(() => {
+            const btn = document.getElementById('copy-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "کپی شد! ✓";
+            btn.style.background = "var(--cyan)";
+            btn.style.color = "#000";
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "rgba(0, 240, 255, 0.1)";
+                btn.style.color = "var(--cyan)";
+            }, 2000);
+        });
+    }
+
+    // تغییر نام فایل
+    function updateFileName(input) {
+        const fileNameDisplay = document.getElementById('file-name');
+        if (input.files && input.files[0]) {
+            fileNameDisplay.textContent = input.files[0].name;
+            fileNameDisplay.style.color = "#fff";
+            document.getElementById('form-error').style.display = 'none';
+        } else {
+            fileNameDisplay.textContent = "فایلی انتخاب نشده";
+            fileNameDisplay.style.color = "var(--text-muted)";
+        }
+    }
+
+    // چک کردن ورودی ها هنگام تایپ برای برداشتن ارور
+    document.getElementById('tracking-input').addEventListener('input', hideError);
+    document.getElementById('desc-input').addEventListener('input', hideError);
+
+    function hideError() {
+        document.getElementById('form-error').style.display = 'none';
+    }
+
+    // عملیات ثبت فرم
+    async function submitPayment(e) {
+        e.preventDefault();
+
+        const trackingVal = document.getElementById('tracking-input').value.trim();
+        const descVal = document.getElementById('desc-input').value.trim();
+        const fileInput = document.getElementById('receipt-upload');
+        const fileSelected = fileInput.files.length > 0;
+        const errorBox = document.getElementById('form-error');
+
+        // ۱. اعتبارسنجی فرم
+        if (!trackingVal && !descVal && !fileSelected) {
+            errorBox.style.display = 'block';
+            errorBox.style.animation = 'none';
+            errorBox.offsetHeight;
+            errorBox.style.animation = null;
+            return;
+        }
+        errorBox.style.display = 'none';
+
+        // ۲. خواندن دیتای اصلی فاکتور از LocalStorage
+        const rawData = localStorage.getItem('checkoutData');
+        if (!rawData) {
+            alert('اطلاعات سبد خرید یافت نشد. لطفا مجددا از صفحه قبل اقدام کنید.');
+            return;
+        }
+        const data = JSON.parse(rawData);
+
+        // ۳. تبدیل مدت زمان به روز (اصلاح شده بر اساس دیتای واقعی شما)
+        let calculatedTimeLimit = 30; // پیش‌فرض ۱ ماه
+        if (data.duration === '1week') calculatedTimeLimit = 7;
+        else if (data.duration === '2weeks') calculatedTimeLimit = 14;
+        else if (data.duration === '1month') calculatedTimeLimit = 30;
+        else if (data.duration === '3months') calculatedTimeLimit = 90;
+        else if (data.duration === '6months') calculatedTimeLimit = 180;
+        else if (data.duration === '12months') calculatedTimeLimit = 365;
+
+        // ۴. تعیین نوع اشتراک بر اساس Enum (0, 1, 2)
+        let calculatedType = 1; // پیش‌فرض استاندارد
+        if (data.isCapacityUpgrade || data.plan === 'capacity_upgrade') {
+            calculatedType = 0; // CapacityUpgrade
+        } else if (data.plan === 'standard') {
+            calculatedType = 1; // STD
+        } else if (data.plan === 'vip') {
+            calculatedType = 2; // VIP
+        }
+
+        // ۵. محاسبه ظرفیت کاربران
+        let totalUserLimit = 1 + (parseInt(data.extraUsers) || 0);
+
+        // ۶. استخراج قیمت نهایی (با احتساب مالیات و تخفیف) مستقیما از روی فاکتور در صفحه
+        let numericPrice = 0;
+
+        const prices = {
+            standard: { '1week': 59000, '2weeks': 99000, '1month': 170000 },
+            vip: { '1week': 79000, '2weeks': 134000, '1month': 214000 }
+        };
+
+        const extraUserPrices = {
+            standard: { '1week': 5000, '2weeks': 10000, '1month': 20000 },
+            vip: { '1week': 10000, '2weeks': 15000, '1month': 25000 }
+        };
+
+
+
+        
+        
+        
+        const totalElem = document.getElementById('inv-total');
+        if (totalElem) {
+            // حذف تمام حروف و کاماها (مثل "150,000 تومان") و تبدیل به عدد
+            numericPrice = Number(totalElem.innerText.replace(/[^\d]/g, '')) || 0;
+        }
+
+        // ۷. ساخت فرم دیتا (FormData)
+        const formData = new FormData();
+        formData.append('PayId', trackingVal);
+        formData.append('Description', descVal);
+
+        if (fileSelected) {
+            formData.append('Image', fileInput.files[0]);
+        }
+
+        // مقادیر اصلی
+        formData.append('TotalPrice', data.totalPrice);
+        formData.append('Type', calculatedType);
+        formData.append('HubName', data.platform || 'IR-Tehran-1');
+        formData.append('UserLimit', totalUserLimit);
+        formData.append('TimeLimit', calculatedTimeLimit);
+
+        // 🔴 دلیل اصلی خطای 400: UserGuid در بک‌اند اجباری است!
+        // باید حتما مقداری برای آن بفرستید (مگر اینکه در بک‌اند آن را از توکن بخوانید و بخواهید در بک‌اند نال‌پذیر 'string?' تعریفش کنید)
+        const userGuid =  'HEB'; // گرفتن آی‌دی کاربر از لوکال استوریج
+        formData.append('UserGuid', userGuid);
+
+        try {
+            const apiUrl = 'api/Orders/CreateOrder';
+            const submitBtn = document.querySelector('.payment-form button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'در حال ارسال...';
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                document.getElementById('main-payment-box').style.display = 'none';
+                document.getElementById('success-box').style.display = 'flex';
+                localStorage.removeItem('checkoutData');
+            } else {
+                  if (response.status == 401) {
+                    alert('عه! شما در اکانتتون لاگین نیستید که! لطفا در صفحه اصلی لاگین کنید.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'ثبت اطلاعات پرداخت';
+                    window.location.href = 'index.html';
+                  } else {
+            // چاپ دقیق ارور بک‌اند برای رفع باگ‌های احتمالی بعدی
+                const errData = await response.text();
+                console.error('Validation Errors (400):', errData);
+                alert('اطلاعات فرم معتبر نیست. کنسول مرورگر را بررسی کنید.');
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ثبت اطلاعات پرداخت';
+                  }
+                
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('مشکل در ارتباط با سرور!');
+            const submitBtn = document.querySelector('.payment-form button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'ثبت اطلاعات پرداخت';
+        }
+    }
+
+
+
+    </script>
+</body>
+</html>

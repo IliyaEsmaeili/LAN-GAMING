@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هاب‌های عمومی | LAN GAMING</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="scrolled">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="btn secondary-btn">بازگشت به خانه</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 120px; padding-bottom: 50px; min-height: 100vh;">
+        <h2 class="section-title">هاب‌های <span>عمومی</span> و رایگان</h2>
+        
+        <!-- Connection Tutorial -->
+        <div class="glass-card" style="margin-bottom: 40px; border-color: var(--purple);">
+            <h3 style="color: var(--cyan); margin-bottom: 15px;">آموزش اتصال 📚</h3>
+            <p style="color: var(--text-muted); line-height: 1.8;">
+                برای آموزش اتصال لطفاً به ناحیه کاربری، قسمت <strong>"اتصال به هاب"</strong> مراجعه کنید.<br>
+                همچنین در صورت تمایل، لطفاً با دونیت کردن از ما حمایت کنید تا خدمات بهتری ارائه دهیم! 💜<br>
+                نام کاربری و رمز عبور همه هاب های عمومی یکسان و برابر : langaming.top میباشد.
+            </p>
+        </div>
+
+        <!-- Servers Filter -->
+        <div class="filter-container">
+            <input type="text" class="filter-input" placeholder="جستجوی هاب یا بازی...">
+            <select class="filter-select">
+                <option value="all">همه بازی‌ها</option>
+                <option value="cs2">Counter-Strike 2</option>
+                <option value="mc">Minecraft</option>
+                <option value="rust">Rust</option>
+            </select>
+        </div>
+
+        <!-- Hubs List -->
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            
+            <!-- Hub Card 1 -->
+            <div class="glass-card" style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: #fff;">Public Hub</h3>
+                    <span style="background: rgba(0,255,136,0.1); color: #00ff88; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; border: 1px solid #00ff88;">🟢 آنلاین</span>
+                </div>
+                <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; line-height: 1.8;">
+                    <strong>بازی:</strong> همه بازی ها<br>
+                    <strong>پلیرها:</strong> ۲۰ نفر<br>
+                    <strong>پینگ متوسط:</strong> ۱۵ms
+                </div>
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border); margin-bottom: 5px;">
+                    <span style="font-family: monospace; color: var(--cyan); letter-spacing: 1px;">public.langaming.top</span>
+                    <button class="btn secondary-btn btn-sm" onclick="copyToClipboard('public.langaming.top')">کپی hubname</button>
+                </div>
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border); margin-bottom: 5px;">
+                    <span style="font-family: monospace; color: var(--cyan); letter-spacing: 1px;">langaming.top</span>
+                    <button class="btn secondary-btn btn-sm" onclick="copyToClipboard('langaming.top')">کپی IP</button>
+                </div>
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);">
+                    <span style="font-family: monospace; color: var(--cyan); letter-spacing: 1px;">5555</span>
+                    <button class="btn secondary-btn btn-sm" onclick="copyToClipboard('5555')">کپی PORT</button>
+                </div>
+            </div>
+
+            <!-- Hub Card 2 -->
+            <div class="glass-card" style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: #fff;">Free Hub</h3>
+                    <span style="background: rgba(0,255,136,0.1); color: #00ff88; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; border: 1px solid #00ff88;">🟢 آنلاین</span>
+                </div>
+                <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; line-height: 1.8;">
+                    <strong>بازی:</strong>همه بازی ها<br>
+                    <strong>پلیرها:</strong> ۲۰ نفر<br>
+                    <strong>پینگ متوسط:</strong> ۲۰ms
+                </div>
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border); margin-bottom: 5px;">
+                    <span style="font-family: monospace; color: var(--cyan); letter-spacing: 1px;">langaming.top</span>
+                    <button class="btn secondary-btn btn-sm" onclick="copyToClipboard('langaming.top')">کپی hubname</button>
+                </div>
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border); margin-bottom: 5px;">
+                    <span style="font-family: monospace; color: var(--cyan); letter-spacing: 1px;">langaming.top</span>
+                    <button class="btn secondary-btn btn-sm" onclick="copyToClipboard('langaming.top')">کپی IP</button>
+                </div>
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);">
+                    <span style="font-family: monospace; color: var(--cyan); letter-spacing: 1px;">5555</span>
+                    <button class="btn secondary-btn btn-sm" onclick="copyToClipboard('5555')">کپی PORT</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Floating Support Chat -->
+    <div id="support-widget">
+        <button class="support-fab" onclick="toggleSupportChat()">
+            💬
+        </button>
+        <div class="support-chat-window hidden" id="support-chat-window">
+            <div class="chat-header">
+                پشتیبانی آنلاین
+                <span onclick="toggleSupportChat()" style="cursor: pointer;">✖</span>
+            </div>
+            <div class="chat-body" id="support-chat-body">
+                <div class="msg support-msg">سلام! برای اتصال به هاب‌ها نیاز به راهنمایی دارید؟</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" placeholder="پیام خود را بنویسید..." id="support-input">
+                <button onclick="sendSupportMsg()">ارسال</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cool Footer -->
+    <footer id="footer" class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.9rem;">تجربه پینگ پایین و کیفیت بدون مرز برای گیمرهای ایرانی.</p>
+            </div>
+            <div class="footer-donate">
+                <h4 style="color: #fff; margin-bottom: 10px;">حمایت از ما 💜</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
+                    با دونیت کردن به ما در ارتقای سخت‌افزارها و ارائه خدمات بهتر کمک کنید!
+                </p>
+                <a href="https://reymit.ir/langaming" target="_blank" class="btn reymit-btn">حمایت مالی از طریق ریمیت</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LAN GAMING. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    
+    <!-- Script for copy buttons -->
+       <!-- Script for copy buttons -->
+    <script>
+        function copyToClipboard(text) {
+            // بررسی وجود API جدید و امن بودن بستر
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(function() {
+                    alert('مقدار ' + text + ' با موفقیت کپی شد!');
+                }).catch(function(err) {
+                    console.error('خطا در کپی کردن متن: ', err);
+                    alert('مشکلی در کپی کردن پیش آمد!');
+                });
+            } else {
+                // روش جایگزین برای محیط‌های HTTP یا فایل‌های لوکال (file://)
+                var textArea = document.createElement("textarea");
+                textArea.value = text;
+                
+                // جلوگیری از اسکرول شدن صفحه به پایین
+                textArea.style.position = "fixed";
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.opacity = "0";
+
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    if (successful) {
+                        alert('مقدار ' + text + ' با موفقیت کپی شد!');
+                    } else {
+                        alert('مشکلی در کپی کردن پیش آمد!');
+                    }
+                } catch (err) {
+                    console.error('خطا در کپی کردن متن: ', err);
+                    alert('مشکلی در کپی کردن پیش آمد!');
+                }
+
+                document.body.removeChild(textArea);
+            }
+        }
+    </script>
+
+</body>
+</html>

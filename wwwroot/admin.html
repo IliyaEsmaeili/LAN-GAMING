@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت فیش‌ها</title>
+    <style>
+        /* 
+         * استایل‌های پایه بدون نیاز به اینترنت (مناسب شبکه ملی) 
+         * الهام گرفته از متغیرهای سایت اصلی
+         */
+        :root {
+            --cyan: #00f2fe;
+            --purple: #4facfe;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif; /* فونت پیش‌فرض ویندوز/سیستم */
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* بخش لاگین */
+        #login-section {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: Tahoma;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: Tahoma;
+            transition: opacity 0.3s;
+        }
+
+        .primary-btn {
+            background: linear-gradient(to right, var(--cyan), var(--purple));
+            color: #000;
+        }
+
+        .primary-btn:hover {
+            opacity: 0.9;
+        }
+
+        .success-btn {
+            background-color: var(--success);
+            color: white;
+            width: auto;
+            padding: 8px 16px;
+        }
+
+        /* گرید کارت‌های فیش */
+        #dashboard-section {
+            display: none; /* بعد از لاگین نمایش داده می‌شود */
+        }
+
+        .receipt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .receipt-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .receipt-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            background-color: #334155; /* Placeholder color */
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .receipt-detail {
+            margin: 8px 0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 5px;
+        }
+
+        .receipt-detail span:last-child {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .actions {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--cyan);
+            font-size: 18px;
+            display: none;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- بخش لاگین -->
+    <div id="login-section">
+        <h2 class="text-gradient">ورود به پنل مدیریت</h2>
+        <input type="text" id="username" class="form-control" placeholder="نام کاربری">
+        <input type="password" id="password" class="form-control" placeholder="رمز عبور">
+        <p id="login-error" class="error-msg">نام کاربری یا رمز عبور اشتباه است!</p>
+        <button class="btn primary-btn" onclick="handleLogin()">ورود</button>
+    </div>
+
+    <!-- بخش داشبورد (نمایش فیش‌ها) -->
+    <div id="dashboard-section">
+        <div class="header-actions">
+            <div>
+                <h2 class="text-gradient section-title" style="margin-bottom: 5px;">فیش‌های در انتظار تایید</h2>
+                <p style="color: var(--text-muted); margin-top: 0;">لیست سفارشاتی که وضعیت Processing دارند.</p>
+            </div>
+            <!-- دکمه مشاهده اکسل فروش‌ها -->
+            <a href="/excel.html" class="btn primary-btn" style="display: inline-block; width: auto; padding: 10px 20px; text-decoration: none; margin-top: 0;">مشاهده اکسل فروش‌ها</a>
+        </div>
+
+        <div id="loading-indicator" class="loading">در حال دریافت اطلاعات از سرور...</div>
+        <div class="receipt-grid" id="receipts-container">
+            <!-- کارت‌ها توسط جاوااسکریپت اینجا رندر می‌شوند -->
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /* ====================================================================
+     * CONFIGURATION & CONSTANTS
+     * ==================================================================== */
+
+    // بک‌انـد کار عزیز: Base URL رو اینجا تنظیم کن.
+    const API_BASE_URL = "api";
+
+    // متغیر برای نگهداری دیتای دریافتی
+    let ordersData = [];
+
+    /* ====================================================================
+     * AUTHENTICATION LOGIC
+     * ==================================================================== */
+    async function handleLogin() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        try {
+            // ساخت URL به همراه پارامترهای username و password
+            const url = `${API_BASE_URL}/Users/CheckAdminAuth?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // دریافت نتیجه (true یا false)
+                const isAdmin = await response.json();
+
+                if (isAdmin === true) {
+                    document.getElementById('login-error').style.display = 'none';
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('dashboard-section').style.display = 'block';
+                    await fetchOrders(); // فراخوانی لیست فیش‌ها بعد از لاگین موفق
+                } else {
+                    // نام کاربری یا رمز عبور اشتباه است / ادمین نیست
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            } else {
+                console.error("خطا در پاسخ سرور:", response.status);
+                document.getElementById('login-error').style.display = 'block';
+            }
+        } catch (error) {
+            console.error("خطا در ارتباط با سرور:", error);
+            document.getElementById('login-error').style.display = 'block';
+        }
+    }
+
+
+    /* ====================================================================
+     * FETCH ORDERS (GET)
+     * ==================================================================== */
+    /**
+     * @BACKEND_DEV_NOTE
+     * Endpoint Expected: GET {API_BASE_URL}/GetPendingOrders
+     * Expected JSON Array Structure:
+     * [
+     *   {
+     *     "OrderId": 101, // یا GUID
+     *     "UserGuid": "xxx-yyy-zzz",
+     *     "TotalPrice": 500000,
+     *     "Type": "CapacityUpgrade",
+     *     "HubName": "هاب شماره یک",
+     *     "UserLimit": 5,
+     *     "TimeLimit": 30,
+     *     "Image": "/receipts/filename.jpg", // آدرس نسبی یا مطلق عکس
+     *     "Description": "توضیحات کاربر",
+     *     "PayId": "1234567890"
+     *   }, ...
+     * ]
+     */
+    async function fetchOrders() {
+        const container = document.getElementById('receipts-container');
+        const loader = document.getElementById('loading-indicator');
+
+        container.innerHTML = '';
+        loader.style.display = 'block';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/Orders/GetPendingOrders`);
+
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            ordersData = await response.json();
+            renderReceipts(ordersData);
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+            container.innerHTML = `<p class="error-msg" style="display:block">خطا در ارتباط با سرور. لطفا API را چک کنید.</p>`;
+        } finally {
+            loader.style.display = 'none';
+        }
+    }
+
+    /* ====================================================================
+     * RENDER UI
+     * ==================================================================== */
+    function renderReceipts(orders) {
+        const container = document.getElementById('receipts-container');
+        container.innerHTML = '';
+
+        if (orders.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted)">هیچ فیش در انتظار تاییدی وجود ندارد.</p>';
+            return;
+        }
+
+        orders.forEach(item => {
+            // ساخت آدرس کامل عکس (اگر آدرس نسبی بود، به دامین اصلی متصل شود)
+            // بک‌اند کار عزیز: اگه تو دیتابیس آدرس کامل (http...) ذخیره میشه، کد زیر رو تغییر بده.
+            //const imageUrl = item.Image.startsWith('http') ? item.Image : `http://185.226.118.197${item.Image}`;
+
+            const card = document.createElement('div');
+            card.className = 'receipt-card';
+            card.id = `order-card-${item.orderId}`;
+
+            console.log('Current item:', item);
+            console.log('TotalPrice:', item.totalPrice);
+            console.log('PayId:', item.payId);
+
+
+
+            card.innerHTML = `
+                    <a href="/api/Orders/${item.orderId}/image" target="_blank" title="برای مشاهده سایز بزرگ کلیک کنید">
+                        <img src="/api/Orders/${item.orderId}/image" alt="فیش پرداختی" class="receipt-image" onerror="this.src=''; this.style.backgroundColor='#334155'; this.alt='تصویر یافت نشد'">
+                    </a>
+                    
+                   <div class="receipt-detail"><span>مبلغ:</span> <span>${(item.totalPrice || 0).toLocaleString()} تومان</span></div>
+                   <div class="receipt-detail"><span>شناسه پیگیری:</span> <span>${item.payId || 'ندارد'}</span></div>
+
+                    <div class="receipt-detail"><span>نوع اکانت:</span> <span>${item.type}</span></div>
+                    <div class="receipt-detail"><span>نام هاب:</span> <span>${item.hubName || 'ندارد'}</span></div>
+                    <div class="receipt-detail"><span>محدودیت کاربر:</span> <span>${item.userLimit} کاربر</span></div>
+                    <div class="receipt-detail"><span>زمان (روز):</span> <span>${item.timeLimit}</span></div>
+                    
+                    <div style="margin-top:10px; font-size:12px; color:var(--text-muted)">
+                        توضیحات: ${item.description || 'بدون توضیح'}
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn success-btn" onclick="verifyOrder('${item.orderId}')" id="btn-${item.orderId}">تایید فیش</button>
+                    </div>
+                `;
+
+            container.appendChild(card);
+        });
+    }
+
+    /* ====================================================================
+     * COMPLETE ORDER (POST/PUT)
+     * ==================================================================== */
+    /**
+     * @BACKEND_DEV_NOTE
+     * Endpoint Expected: GET/POST/PUT {API_BASE_URL}/CompleteOrder/{OrderId}
+     * (با توجه به متد بک‌اند، متد fetch را در خط زیر تنظیم کنید. من فرض کردم POST است)
+     *
+     * Expected String Responses from Server:
+     * "Done"        -> تایید موفق، کارت از لیست حذف میشود
+     * "ghblanzadim" -> قبلا تایید شده، کارت از لیست حذف میشود
+     * "ridi"        -> خطای سیستمی، نمایش پیام خطا
+     */
+    async function verifyOrder(orderId) {
+        const btn = document.getElementById(`btn-${orderId}`);
+        btn.innerText = "در حال پردازش...";
+        btn.disabled = true;
+
+        try {
+            // بک‌اند کار عزیز: اگر این متد GET یا PUT هست، کلمه POST رو در خط پایین عوض کن
+            const response = await fetch(`${API_BASE_URL}/Orders/CompleteOrder/${orderId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            // چون بک‌اند متن برمی‌گرداند نه JSON
+            const resultText = await response.text();
+
+            if (resultText === "Done") {
+                alert("فیش با موفقیت تایید و سفارش تکمیل شد.");
+                document.getElementById(`order-card-${orderId}`).remove();
+            } else if (resultText === "ghblanzadim") {
+                alert("این سفارش قبلا تایید شده است!");
+                document.getElementById(`order-card-${orderId}`).remove();
+            } else if (resultText === "ridi") {
+                alert("خطا در تایید سفارش. لطفا مجددا تلاش کنید.");
+                btn.innerText = "تایید فیش";
+                btn.disabled = false;
+            } else {
+                // در صورتی که بک‌اند خروجی دیگری داد
+                alert("پاسخ نامشخص از سرور: " + resultText);
+                btn.innerText = "تایید فیش";
+                btn.disabled = false;
+            }
+
+        } catch (error) {
+            console.error("Error verifying order:", error);
+            alert("ارتباط با سرور برای تایید فیش برقرار نشد.");
+            btn.innerText = "تایید فیش";
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+﻿    <!DOCTYPE html>
+    <html lang="fa" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>فاکتور پرداخت | LAN GAMING</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            .checkout-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 20px 40px; }
+            .invoice-card { max-width: 500px; width: 100%; border-color: var(--cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.15); }
+            .invoice-header { text-align: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; margin-bottom: 20px; }
+            .invoice-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.1rem; }
+            .invoice-row span:nth-child(2) { font-weight: bold; color: var(--text-main); }
+            .tax-row { color: var(--text-muted); font-size: 0.95rem; }
+            .total-row { border-top: 1px dashed var(--glass-border); padding-top: 15px; font-size: 1.3rem; margin-top: 10px; color: var(--cyan); }
+            .total-row span:nth-child(2) { color: #fff; font-size: 1.5rem; text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+            .discount-box { display: flex; gap: 10px; margin: 25px 0; }
+            .discount-box input { flex: 1; padding: 10px 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #fff; border-radius: 8px; outline: none; transition: 0.3s; }
+            .discount-box input:focus { border-color: var(--purple); box-shadow: 0 0 10px rgba(176, 38, 255, 0.3); }
+            .success-msg { color: #00ff88; font-size: 0.9rem; margin-top: -15px; margin-bottom: 15px; display: none; text-align: right; }
+            .btn-pay { background: linear-gradient(45deg, #00f0ff, #0088ff); color: #000; font-size: 1.2rem; font-weight: 800; }
+            .btn-pay:hover { box-shadow: 0 0 25px rgba(0, 240, 255, 0.8); }
+        </style>
+    </head>
+    <body>
+        <nav id="navbar" class="scrolled">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+                </div>
+                <div class="nav-actions">
+                    <a href="index.html" class="btn secondary-btn">بازگشت به خانه</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="checkout-wrapper">
+            <div class="glass-card invoice-card">
+                <div class="invoice-header">
+                    <h2 class="text-gradient">فاکتور نهایی</h2>
+                    <p style="color: var(--text-muted); margin-top: 5px;">خرید اشتراک گیمینگ</p>
+                </div>
+                <div class="invoice-details">
+                    <div class="invoice-row"><span>نوع اشتراک:</span><span id="inv-plan">---</span></div>
+                    <div class="invoice-row"><span>مدت زمان:</span><span id="inv-duration">---</span></div>
+                    <div class="invoice-row"><span>پلتفرم:</span><span id="inv-platform">---</span></div>
+                    <div class="invoice-row"><span>مبلغ پایه:</span><span id="inv-base-price">0 تومان</span></div>
+                    
+                    <!-- ردیف کاربران اضافه -->
+                    <div class="invoice-row" style="color: var(--purple);">
+                        <span>هزینه کاربران اضافه (<span id="inv-extra-count">0</span> نفر):</span>
+                        <span id="inv-extra-price">0 تومان</span>
+                    </div>
+
+                    <div class="invoice-row tax-row"><span>هزینه فعالسازی (۱۰٪):</span><span id="inv-tax">0 تومان</span></div>
+                    <div class="invoice-row tax-row hidden" id="discount-row" style="color: #ffb703;"><span>تخفیف:</span><span id="inv-discount">0 تومان</span></div>
+                    
+                    <div class="discount-box">
+                        <input type="text" id="discount-input" placeholder="کد تخفیف">
+                        <button class="btn secondary-btn" onclick="applyDiscount()">اعمال</button>
+                    </div>
+                    <div id="discount-msg" class="success-msg">تخفیف اعمال شد!</div>
+                    <div class="invoice-row total-row"><span>مبلغ نهایی:</span><span id="inv-total">0 تومان</span></div>
+                </div>
+                <!-- در انتهای فاکتور -->
+    <button class="btn primary-btn w-100" onclick="goToPayment()">پرداخت و فعال‌سازی</button>
+
+            </div>
+        </div>
+
+        <!-- Floating Support Chat -->
+        <div id="support-widget">
+            <button class="support-fab" onclick="toggleSupportChat()">💬</button>
+            <div class="support-chat-window hidden" id="support-chat-window">
+                <div class="chat-header">پشتیبانی آنلاین<span onclick="toggleSupportChat()" style="cursor: pointer;">✖</span></div>
+                <div class="chat-body" id="support-chat-body"><div class="msg support-msg">سلام! در فرایند پرداخت مشکلی دارید؟</div></div>
+                <div class="chat-footer"><input type="text" id="support-input"><button onclick="sendSupportMsg()">ارسال</button></div>
+            </div>
+        </div>
+
+        <!-- Cool Footer -->
+        <footer id="footer" class="main-footer" style="margin-top: 0;">
+            <div class="container footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">LAN<span>GAMING</span></a>
+                    <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.9rem;">تجربه پینگ پایین و کیفیت بدون مرز برای گیمرهای ایرانی.</p>
+                </div>
+                <div class="footer-donate">
+                    <h4 style="color: #fff; margin-bottom: 10px;">حمایت از ما 💜</h4>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
+                        با دونیت کردن به ما در ارتقای سخت‌افزارها و ارائه خدمات بهتر کمک کنید!
+                    </p>
+                    <a href="https://reymit.ir/langaming" target="_blank" class="btn reymit-btn">حمایت مالی از طریق ریمیت</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 LAN GAMING. تمامی حقوق محفوظ است.</p>
+            </div>
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+    </html>
